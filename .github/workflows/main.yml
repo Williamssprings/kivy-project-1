@@ -12,18 +12,20 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.10"
 
-      - name: Install buildozer & system dependencies
+      - name: Install system libs
         run: |
-          pip install buildozer
           sudo apt-get update
-          sudo apt-get install -y build-essential git zip unzip openjdk-17-jdk-headless libncurses5 libncursesw6 libtool pkg-config autoconf automake libffi-dev libssl-dev
+          sudo apt-get install -y build-essential git zip unzip openjdk-11-jdk-headless libncursesw6 libtool pkg-config autoconf automake libffi-dev libssl-dev
 
-      - name: Build debug APK
+      - name: Install buildozer
+        run: pip install buildozer
+
+      - name: Compile APK
         run: buildozer android debug
 
-      - name: Upload built APK
+      - name: Save APK
         uses: actions/upload-artifact@v4
         with:
           name: output-apk
